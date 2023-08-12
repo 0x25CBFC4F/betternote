@@ -1,0 +1,48 @@
+body {
+    background-color: #181A1B;
+    font-family: 'Roboto Mono', monospace;
+    color: azure;
+}
+
+.main {
+    background-color: #51585B;
+    border: gray 1px solid;
+    margin-top: 15vh;
+}
+
+p {
+    margin: 0;
+}
+
+.block {
+    margin-bottom: 10px;
+}
+
+.btn-container-right-align {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.title {
+    margin-top: 10px;
+    font-size: x-large;
+}
+
+.subtitle {
+    font-size: small;
+}
+
+#textArea {
+    height: 15vh;
+}
+
+.made-with-love {
+    position: absolute;
+    bottom: 1vh;
+    right: 1vh;
+}
+
+.made-with-love > a {
+    font-size: 12px;
+    text-decoration-line: none;
+}

@@ -1,0 +1,56 @@
+<!-- Hey. How it's going? -->
+<!-- If you're facing a problem please create an issue, I'd be glad to help :) -->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>betternote</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/ricmoo/aes-js@e27b99df/index.js"></script>
+    <script src="script.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <link href="styles.css" rel="stylesheet" />
+</head>
+<body data-bs-theme="dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 main">
+                <div class="block">
+                    <p class="title">BetterNotes</p>
+                    <p class="subtitle">Secure note sharing</p>
+                    <hr/>
+                </div>
+
+                <div class="block">
+                    <div id="errorAlert" role="alert" style="display: none"></div>
+                    <textarea class="form-control" id="textArea"></textarea>
+                </div>
+
+                <div class="btn-container-right-align">
+                    <button id="createLinkBtn" type="button" class="btn btn-primary">Create link</button>
+                    <button id="resetBtn" type="button" class="btn btn-primary" style="display: none">Copy & reset</button>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+
+    <div class="made-with-love">
+        <a target="_blank" href="https://github.com/0x25CBFC4F">Made with ❤️ by 0x25CBFC4F</a>
+    </div>
+</body>
+</html>
