@@ -62,10 +62,14 @@ builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateRequestValidat
 // Exception handler
 builder.Services.AddSingleton<ExceptionMiddleware>();
 
+appLogger.Information("RedisDatabaseId = {DatabaseId}", databaseId);
+appLogger.Information("SecretExpiryInMinutes = {SecretExpiryInMinutes}", builder.Configuration.GetValue<int>("SecretExpiryInMinutes"));
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.Run();
+
+await app.RunAsync();

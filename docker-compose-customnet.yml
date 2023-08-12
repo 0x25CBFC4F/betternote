@@ -1,0 +1,34 @@
+services:
+  betternote:
+    build: ./backend
+    container_name: betternote-backend
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://0.0.0.0:5000
+      RedisDatabaseId: -1
+      RedisHost: redis
+      SecretExpiryInMinutes: 720
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    networks:
+      - redis-internal
+    
+  redis:
+    image: redis
+    container_name: betternote-redis
+    restart: unless-stopped
+    # Fully disabling Redis persistence
+    entrypoint: redis-server --save "" --appendonly no
+    networks:
+      - redis-internal
+
+networks:
+  redis-internal:
+    name: "betternote-redis-internal"
+    driver: bridge
+  custom-network:
+    name: "${CUSTOM_NETWORK_NAME}"
+    external: true

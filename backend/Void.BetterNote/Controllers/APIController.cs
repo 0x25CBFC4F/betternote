@@ -14,11 +14,15 @@ public class APIController : ControllerBase
 {
     private readonly IDatabase database;
     private readonly ILogger<APIController> logger;
+    private readonly IConfiguration configuration;
 
-    public APIController(IDatabase database, ILogger<APIController> logger)
+    public APIController(IDatabase database,
+        ILogger<APIController> logger,
+        IConfiguration configuration)
     {
         this.database = database;
         this.logger = logger;
+        this.configuration = configuration;
     }
 
     [HttpGet("{noteId}")]
@@ -40,6 +44,8 @@ public class APIController : ControllerBase
             throw new LogicException(ErrorCode.ValidationError, "Unknown note ID!");
 
         await database.KeyDeleteAsync(noteId);
+        
+        logger.LogInformation("Secret [{SecretId}] retrieved", noteId);
 
         return new BaseResponse<string>
         {
@@ -69,15 +75,17 @@ public class APIController : ControllerBase
             await swEncrypt.WriteAsync(request.Text);
         }
 
-        var randomId = Guid.NewGuid().ToString("N");
+        var secretId = Guid.NewGuid().ToString("N");
         var encrypted = Convert.ToBase64String(msEncrypt.ToArray());
         var key = Convert.ToBase64String(randomAes.Key);
         var iv = Convert.ToBase64String(randomAes.IV);
 
+        var expiryTimeSpan = GetExpiryTimeSpan();
+        
         try
         {
-            await database.StringSetAsync(randomId, encrypted);
-            await database.KeyExpireAsync(randomId, TimeSpan.FromHours(12));
+            await database.StringSetAsync(secretId, encrypted);
+            await database.KeyExpireAsync(secretId, expiryTimeSpan);
         }
         catch (RedisTimeoutException ex)
         {
@@ -85,15 +93,32 @@ public class APIController : ControllerBase
             throw new LogicException(ErrorCode.RedisIsOffline, "Unable to reach Redis database.");
         }
         
+        logger.LogInformation("Created secret with ID [{SecretId}], will expire at ~[{ApproxExpiryDate}] UTC",
+            secretId, DateTime.UtcNow.Add(expiryTimeSpan));
+        
         return new BaseResponse<CreateResponse>
         {
             Success = true,
             Result = new CreateResponse
             {
-                Id = randomId,
+                Id = secretId,
                 Key = key,
                 IV = iv
             }
         };
+    }
+
+    [NonAction]
+    private TimeSpan GetExpiryTimeSpan()
+    {
+        var configExpiryMinutes = configuration.GetValue<int>("SecretExpiryInMinutes");
+
+        if (configExpiryMinutes == 0)
+        {
+            logger.LogWarning("SecretExpiryInMinutes is not set! Default value of 12 hours will be used");
+            return TimeSpan.FromHours(12);
+        }
+
+        return TimeSpan.FromMinutes(configExpiryMinutes);
     }
 }
