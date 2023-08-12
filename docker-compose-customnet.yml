@@ -25,7 +25,6 @@ services:
     entrypoint: redis-server --save "" --appendonly no
     networks:
       - redis-internal
-      - custom-network
 
 networks:
   redis-internal:
