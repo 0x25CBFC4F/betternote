@@ -16,6 +16,11 @@ public class APIController : ControllerBase
     private readonly ILogger<APIController> logger;
     private readonly IConfiguration configuration;
 
+    private const string DemoModeText =
+        "This is a demo instance of BetterNote.\n" +
+        "Your secret was replaced with this text to prevent misuse.\n\n" +
+        "Seeing this text on your own instance? Set environment variable 'DemoMode' to 'false'.";
+
     public APIController(IDatabase database,
         ILogger<APIController> logger,
         IConfiguration configuration)
@@ -68,11 +73,13 @@ public class APIController : ControllerBase
 
         using var encryptor = randomAes.CreateEncryptor();
 
+        var textToEncrypt = !configuration.GetValue<bool>("DemoMode") ? request.Text : DemoModeText;
+        
         using var msEncrypt = new MemoryStream();
         await using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
         await using (var swEncrypt = new StreamWriter(csEncrypt, Encoding.UTF8))
         {
-            await swEncrypt.WriteAsync(request.Text);
+            await swEncrypt.WriteAsync(textToEncrypt);
         }
 
         var secretId = Guid.NewGuid().ToString("N");

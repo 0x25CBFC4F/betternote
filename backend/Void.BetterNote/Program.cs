@@ -64,6 +64,7 @@ builder.Services.AddSingleton<ExceptionMiddleware>();
 
 appLogger.Information("RedisDatabaseId = {DatabaseId}", databaseId);
 appLogger.Information("SecretExpiryInMinutes = {SecretExpiryInMinutes}", builder.Configuration.GetValue<int>("SecretExpiryInMinutes"));
+appLogger.Information("DemoMode = {DemoMode}", builder.Configuration.GetValue<bool>("DemoMode"));
 
 var app = builder.Build();
 
