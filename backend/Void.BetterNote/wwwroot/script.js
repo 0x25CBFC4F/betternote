@@ -46,7 +46,14 @@ window.onload = async () => {
 
 async function loadSecret() {
     const textArea = document.getElementById("textArea");
-    const hash = document.location.hash.split("#");
+    let docHash = document.location.hash;
+    
+    if(docHash.indexOf("%23") !== -1) {
+        // It seems that link was escaped by some messenger
+        docHash = decodeURIComponent(docHash);
+    }
+    
+    const hash = docHash.split("#");
     
     if(hash.length !== 5) {
         showAlert("danger", "Invalid view link, sorry!");
