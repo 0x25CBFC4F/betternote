@@ -18,6 +18,11 @@ Intended to be deployed with docker-compose. This repo has two deployment config
 - `docker-compose.yml` - default deployment config
 - `docker-compose-customnet.yml` - deployment with custom external network (Portainer deployment)
 
+### Deployment: HTTP vs HTTPS
+
+You probably should deploy this service with a [reverse proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) of some kind that will provide HTTPS.
+Hosting this page on HTTP will not only decrease security but also forces frontend to use [outdated clipboard copy method](https://stackoverflow.com/a/72239825/12030195).
+
 ### Configuration
 
 | Environment variable   | Meaning                                      | Default value         | Comment                                          |

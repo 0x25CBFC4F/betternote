@@ -103,7 +103,8 @@ public class APIController : ControllerBase
             {
                 Id = secretId,
                 Key = key,
-                IV = iv
+                IV = iv,
+                NoteExpirationInMinutes = (int) expiryTimeSpan.TotalMinutes
             }
         };
     }

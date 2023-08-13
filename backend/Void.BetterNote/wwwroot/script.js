@@ -2,6 +2,28 @@ function getPureUrl() {
     return window.location.href.split('#')[0];
 }
 
+// Stolen from https://stackoverflow.com/a/72239825/12030195
+async function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        // If normal copy method available, use it
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus({ preventScroll: true });
+    textArea.select();
+    try {
+        // noinspection JSDeprecatedSymbols
+        document.execCommand('copy');
+    } catch (err) {
+        console.error('Unable to copy to clipboard', err);
+    }
+    document.body.removeChild(textArea);
+}
+
 window.onload = async () => {
     const textArea = document.getElementById("textArea");
     const generateButton = document.getElementById("createLinkBtn");
@@ -14,7 +36,7 @@ window.onload = async () => {
 
     resetButton.onclick = async _ => {
         // Lazy but like who cares? :)
-        await navigator.clipboard.writeText(textArea.value);
+        await copyToClipboard(textArea.value);
         document.location.replace(getPureUrl());
     };
     
@@ -90,7 +112,9 @@ async function onButtonClick(event) {
     setResponseUrl(responseModel);
     enableReadonlyMode();
     
-    showAlert("success", "Your note has been created. Keep in mind that it will auto-delete itself in 12 hours.");
+    const expirationHours = (responseModel.result.noteExpirationInMinutes / 60).toFixed(1);
+    
+    showAlert("success", `Your note has been created. Keep in mind that it will auto-delete itself in ${expirationHours} hours.`);
 }
 
 function showAlert(type, text) {
