@@ -1,5 +1,12 @@
 # betternote - Secure note sharing
 
+[![Docker](https://img.shields.io/badge/Docker_images-blue)](https://hub.docker.com/r/0x25cbfc4f/betternotes)
+
+### Screenshots
+
+![Screenshot](images/screenshot.png)
+(Not much to show off, right?)
+
 ### Why?
 
 Sometimes you just have to send that plain-text password to your friend or colleague, right? That's why this tool exists.
