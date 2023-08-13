@@ -3,6 +3,7 @@ services:
     build: ./backend
     container_name: betternote-backend
     restart: unless-stopped
+    pull_policy: build
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://0.0.0.0:5000
