@@ -1,9 +1,8 @@
 services:
   betternote:
-    build: ./backend
+    image: 0x25cbfc4f/betternotes:latest
     container_name: betternote-backend
     restart: unless-stopped
-    pull_policy: build
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://0.0.0.0:5000
@@ -16,7 +15,6 @@ services:
       - redis
     networks:
       - redis-internal
-    
   redis:
     image: redis
     container_name: betternote-redis

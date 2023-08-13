@@ -10,14 +10,12 @@ services:
       RedisDatabaseId: -1
       RedisHost: redis
       SecretExpiryInMinutes: 720
-      DemoMode: ${DEMO_MODE}
     ports:
       - "5000:5000"
     depends_on:
       - redis
     networks:
       - redis-internal
-      - custom-network
   redis:
     image: redis
     container_name: betternote-redis
@@ -31,6 +29,3 @@ networks:
   redis-internal:
     name: "betternote-redis-internal"
     driver: bridge
-  custom-network:
-    name: "${CUSTOM_NETWORK_NAME}"
-    external: true
