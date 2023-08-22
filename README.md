@@ -1,6 +1,16 @@
-# betternote - Secure note sharing
+# ✨ betternote - Simple and secure one-time note sharing service
 
 [![Docker](https://img.shields.io/badge/Docker_images-blue)](https://hub.docker.com/r/0x25cbfc4f/betternotes)
+
+- [✨ betternote - Simple and secure one-time note sharing service](#-betternote---simple-and-secure-one-time-note-sharing-service)
+    - [Screenshots](#screenshots)
+    - [Why?](#why)
+    - [Stack](#stack)
+    - [Deployment](#deployment)
+    - [Deployment: HTTP vs HTTPS](#deployment-http-vs-https)
+    - [Configuration](#configuration)
+    - [Contribution](#contribution)
+    - [Attribution](#attribution)
 
 ### Screenshots
 
@@ -22,8 +32,8 @@ Inspiration came from [dnote](https://github.com/smartboxgroup/dnote) project.
 ### Deployment
 
 Intended to be deployed with docker-compose. This repo has two deployment configs:
-- `docker-compose.yml` - default deployment config
-- `docker-compose-customnet.yml` - deployment with custom external network (Portainer deployment)
+- `docker-compose.yml` - default deployment example.
+- `docker-compose-build.yml` - deployment with build (latest version from source).
 
 ### Deployment: HTTP vs HTTPS
 
@@ -32,13 +42,13 @@ Hosting this page on HTTP will not only decrease security but also forces fronte
 
 ### Configuration
 
-| Environment variable   | Meaning                                      | Default value         | Comment                                          |
-|------------------------|----------------------------------------------|-----------------------|--------------------------------------------------|
-| ASPNETCORE_ENVIRONMENT | Server environment, better be left as it is. | `Production`          |                                                  |
-| ASPNETCORE_URLS        | Interface bind URL with port                 | `http://0.0.0.0:5000` | Server will bind on all interfaces on port 5000. |
-| RedisDatabaseId        | Redis database ID                            | `-1`                  |                                                  |
-| RedisHost              | Redis hostname, without port (6379 expected) | `redis`               |                                                  |
-| SecretExpiryInMinutes  | Secret expiry time, in minutes               | `720`                 | 12 hours                                         |
+| Environment variable   | Meaning                                      | Default value         | Comment                                                                                                                                                         |
+|------------------------|----------------------------------------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ASPNETCORE_ENVIRONMENT | Server environment, better be left as it is. | `Production`          |                                                                                                                                                                 |
+| ASPNETCORE_URLS        | Interface bind URL with port                 | `http://0.0.0.0:5000` | Server will bind on all interfaces on port 5000.                                                                                                                |
+| RedisDatabaseId        | Redis database ID                            | `-1`                  |                                                                                                                                                                 |
+| RedisHost              | Redis hostname, without port (6379 expected) | `redis`               |                                                                                                                                                                 |
+| SecretExpiryInMinutes  | Secret expiry time, in minutes               | `720`                 | 12 hours by default. **Keep in mind that notes on your server are going to be burned after the first read. This sets expiry time for notes that weren't read.** |
 
 ### Contribution
 
